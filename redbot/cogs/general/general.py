@@ -6,6 +6,7 @@ from typing import Final
 import urllib.parse
 import aiohttp
 import discord
+import platform
 from redbot.core import commands
 from redbot.core.bot import Red
 from redbot.core.i18n import Translator, cog_i18n
@@ -77,10 +78,38 @@ class General(commands.Cog):
         super().__init__()
         self.bot = bot
         self.stopwatches = {}
+        self.start_time = time.time()
 
     async def red_delete_data_for_user(self, **kwargs):
         """Nothing to delete"""
         return
+
+    def get_info_embed(self):
+        uptime = humanize_timedelta(seconds=int(time.time() - self.start_time))
+        python_version = platform.python_version()
+
+        embed = discord.Embed(
+            title="🤖 AegisBOT - Informations",
+            description="Bot de sécurité, modération et gestion avancée.",
+            color=discord.Color.blurple()
+        )
+        embed.set_thumbnail(url=self.bot.user.display_avatar.url)
+        embed.add_field(name="👑 Développeur", value="ludoo57", inline=True)
+        embed.add_field(name="🖠 Version", value="1.0.0", inline=True)
+        embed.add_field(name="📱 Serveurs", value=str(len(self.bot.guilds)), inline=True)
+        embed.add_field(name="👥 Utilisateurs", value=str(len(set(self.bot.get_all_members()))), inline=True)
+        embed.add_field(name="📶 Latence", value=f"{round(self.bot.latency * 1000)}ms", inline=True)
+        embed.add_field(name="⏱ Uptime", value=uptime, inline=True)
+        embed.add_field(name="🔧 Python", value=python_version, inline=True)
+        embed.set_footer(text="AegisBOT")
+        return embed
+
+    @commands.hybrid_command(name="info", with_app_command=True)
+    async def info(self, ctx: commands.Context):
+        """Affiche les informations du bot."""
+        embed = self.get_info_embed()
+        await ctx.send(embed=embed)
+
 
     @commands.command(usage="<first> <second> [others...]")
     async def choose(self, ctx, *choices):
