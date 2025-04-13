@@ -43,3 +43,33 @@ source venv/bin/activate  # ou .\\venv\\Scripts\\activate sur Windows
 pip install -U pip
 pip install -e .
 redbot --dev MonBot
+```
+
+🔧 Assure-toi d'utiliser Python 3.10 et d'avoir les droits développeur pour inviter le bot avec les scopes :
+bot + applications.commands
+
+---
+
+🧪 Commandes utiles
+Commande	Description:
+
+- !info : botinfo	Affiche les infos du bot (latence, uptime, etc.)
+- !warn : warn	Avertir un utilisateur
+- !help	: Menu de configuration interactif
+- !modlogs: Voir les logs de modération
+
+---
+
+💬 Support
+GitHub : github.com/ludoo57/AegisBOT
+
+Discord support : (à compléter si tu as un salon support)
+
+---
+
+📄 Licence
+Ce projet est sous licence MIT – libre d’usage et de modification.
+
+---
+
+🛡️ AegisBOT - Ta meilleure défense contre le chaos sur Discord.
