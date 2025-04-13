@@ -16,7 +16,7 @@ Créé avec ❤️ par <strong>ludoo57</strong>
 ## 📌 À propos
 
 AegisBOT est un bot Discord conçu pour offrir une **modération avancée**, une **protection anti-nuke/anti-raid**, et des **outils d'administration intelligents**.  
-Inspiré de bots populaires comme **Wick**, **Dyno**, et **Carl**, il propose une expérience moderne, interactive et hautement personnalisable.
+Inspiré de bots populaires comme **Wick**, **Dyno**, et **Carl**, et pour finir de ce qui fait la base de ce bot **RedBot** il propose une expérience moderne, interactive et hautement personnalisable.
 
 ---
 
@@ -62,7 +62,7 @@ Commande	Description:
 💬 Support
 GitHub : github.com/ludoo57/AegisBOT
 
-Discord support : (à compléter si tu as un salon support)
+Discord support : [https://discord.gg/Ej7pbDAgnZ](https://discord.gg/Ej7pbDAgnZ)
 
 ---
 
