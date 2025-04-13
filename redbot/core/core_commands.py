@@ -5820,7 +5820,11 @@ class Core(commands.commands._RuleDropper, commands.Cog, CoreLogic):
         """
 
         message = (
-  
+            "**AEGISBOT** est basé sur le projet open-source [Red-DiscordBot](https://github.com/Cog-Creators/Red-DiscordBot), "
+            "distribué sous licence [MIT](https://opensource.org/licenses/MIT).\n\n"
+            "🔓 Cela signifie que le code source est librement modifiable, réutilisable et distribuable, dans le respect de la licence.\n\n"
+            "🛡️ **AEGISBOT** reste toutefois un projet **personnalisé, unique et maintenu indépendamment**, avec des fonctionnalités et une identité qui lui sont propres.\n\n"
+            "💡 Merci à la communauté RedBot pour leur travail exceptionnel, et bienvenue dans l'univers d'AEGISBOT."
         )
         await ctx.send(message)
         # We need a link which contains a thank you to other projects which we use at some point.
