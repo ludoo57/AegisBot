@@ -7,6 +7,7 @@ import urllib.parse
 import aiohttp
 import discord
 import platform
+from redbot import __version__ as red_version
 from redbot.core import commands
 from redbot.core.bot import Red
 from redbot.core.i18n import Translator, cog_i18n
@@ -95,7 +96,7 @@ class General(commands.Cog):
         )
         embed.set_thumbnail(url=self.bot.user.display_avatar.url)
         embed.add_field(name="👑 Développeur", value="ludoo57", inline=True)
-        embed.add_field(name="🖠 Version", value="2.0.0", inline=True)
+        embed.add_field(name="🖠 Version", value=red_version, inline=True)
         embed.add_field(name="📱 Serveurs", value=str(len(self.bot.guilds)), inline=True)
         embed.add_field(name="👥 Utilisateurs", value=str(len(set(self.bot.get_all_members()))), inline=True)
         embed.add_field(name="📶 Latence", value=f"{round(self.bot.latency * 1000)}ms", inline=True)
