@@ -6,7 +6,6 @@ Créé avec ❤️ par <strong>ludoo57</strong>
 
 <p align="center">
 <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/ludoo57/AegisBOT/main/.github/version-badge.json&style=flat-square" />
-<img src="https://img.shields.io/badge/AegisBOT-v2.0.0-blue?style=flat-square" />
 <img src="https://img.shields.io/badge/Python-3.10+-yellow?style=flat-square" />
 <img src="https://img.shields.io/badge/RedBot-Compatible-brightgreen?style=flat-square" />
 <img src="https://img.shields.io/github/license/ludoo57/AegisBOT?style=flat-square" />
