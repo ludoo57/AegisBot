@@ -32,6 +32,6 @@ class Status(commands.Cog):
         embed.add_field(name="🐍 Python", value=python_version, inline=True)
         embed.add_field(name="🧩 Cogs chargés", value=str(total_cogs), inline=True)
         embed.add_field(name="⚙️ Commandes", value=str(total_commands), inline=True)
-        embed.set_footer(text="Propulsé par AEGISBOT")
+        embed.set_footer(text="AegisBOT")
 
         await ctx.send(embed=embed)
