@@ -1,6 +1,10 @@
 {
     "schemaVersion": 1,
     "label": "AegisBOT",
+<<<<<<< HEAD
     "message": "v3.5.19.dev6+g6e81be63",
+=======
+    "message": "v3.5.20.dev1",
+>>>>>>> V3/develop
     "color": "blue"
 }
