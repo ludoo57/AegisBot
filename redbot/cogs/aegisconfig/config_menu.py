@@ -1,9 +1,11 @@
 from redbot.core import commands
 from redbot.core.bot import Red
-from redbot.core.utils.views import ConfirmView
 from discord.ui import View, Select, Button
 from discord import Interaction, Embed, SelectOption, Colour
 import discord
+import logging
+
+log = logging.getLogger("red.aegisconfig")
 
 class AegisConfig(commands.Cog):
     """Configuration avancée d’AegisBOT."""
@@ -16,7 +18,11 @@ class AegisConfig(commands.Cog):
     async def aegis_config(self, ctx: commands.Context):
         """Ouvre le menu de configuration d’AegisBOT."""
         view = ConfigMainView(self.bot, ctx.author)
-        embed = Embed(title="⚙️ Menu de configuration", description="Utilisez les menus ci-dessous pour configurer AegisBOT.", color=Colour.blurple())
+        embed = Embed(
+            title="⚙️ Menu de configuration",
+            description="Utilisez les menus ci-dessous pour configurer AegisBOT.",
+            color=Colour.blurple(),
+        )
         await ctx.send(embed=embed, view=view)
 
 class ConfigMainView(View):
@@ -65,6 +71,10 @@ class ModuleManagerView(View):
         if loaded:
             self.add_item(ModuleUnloadSelect(bot, loaded))
 
+    async def on_timeout(self):
+        for item in self.children:
+            item.disabled = True
+
     async def interaction_check(self, interaction: Interaction) -> bool:
         return interaction.user.id == self.user.id
 
@@ -84,8 +94,12 @@ class ModuleLoadSelect(Select):
             await self.bot.load_extension(spec)
             await self.bot.add_loaded_package(cog)
             await interaction.response.send_message(f"✅ Module `{cog}` chargé avec succès !", ephemeral=True)
-        except Exception as e:
-            await interaction.response.send_message(f"❌ Erreur lors du chargement de `{cog}` : {e}", ephemeral=True)
+        except Exception:
+            log.exception("Erreur lors du chargement du module %s", cog)
+            await interaction.response.send_message(
+                f"❌ Erreur lors du chargement de `{cog}`. Consultez les logs du bot.",
+                ephemeral=True,
+            )
 
 class ModuleUnloadSelect(Select):
     def __init__(self, bot: Red, loaded):
@@ -95,7 +109,7 @@ class ModuleUnloadSelect(Select):
 
     async def callback(self, interaction: Interaction):
         cog = self.values[0]
-        print(f"Tentative de déchargement du module : {cog}")  # Pour déboguer
+        log.info("Tentative de déchargement du module : %s", cog)
         if cog not in self.bot.extensions:
             await interaction.response.send_message(
                 f"❌ Le module `{cog}` n’est pas chargé ou n’est pas un module valide.", ephemeral=True
@@ -105,10 +119,11 @@ class ModuleUnloadSelect(Select):
             await self.bot.unload_extension(cog)
             await self.bot.remove_loaded_package(cog)
             await interaction.response.send_message(f"✅ Module `{cog}` déchargé avec succès !", ephemeral=True)
-        except Exception as e:
-            import traceback
+        except Exception:
+            log.exception("Erreur lors du déchargement du module %s", cog)
             await interaction.response.send_message(
-                f"❌ Erreur lors du déchargement de `{cog}` : {e}\nDétails : {traceback.format_exc()}", ephemeral=True
+                f"❌ Erreur lors du déchargement de `{cog}`. Consultez les logs du bot.",
+                ephemeral=True,
             )
 
 class RefreshButton(Button):
@@ -121,7 +136,11 @@ class RefreshButton(Button):
         if interaction.user.id != self.author.id:
             await interaction.response.send_message("❌ Tu n'es pas autorisé à utiliser ce menu.", ephemeral=True)
             return
-        await interaction.response.send_message("🔁 Menu rafraîchi.", view=ConfigMainView(self.bot, self.author), ephemeral=True)
+        await interaction.response.send_message(
+            "🔁 Menu rafraîchi.",
+            view=ConfigMainView(self.bot, self.author),
+            ephemeral=True,
+        )
 
 async def setup(bot):
     await bot.add_cog(AegisConfig(bot))

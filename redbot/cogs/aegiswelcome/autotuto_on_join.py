@@ -2,6 +2,11 @@ import discord
 from redbot.core import commands
 from redbot.core.bot import Red
 
+
+def _can_post_in_channel(me: discord.Member, channel: discord.TextChannel) -> bool:
+    perms = channel.permissions_for(me)
+    return perms.view_channel and perms.send_messages and perms.embed_links
+
 class AegisWelcome(commands.Cog):
     """Affiche un menu d’accueil interactif à l’arrivée du bot ou via commande."""
 
@@ -25,9 +30,17 @@ class AegisWelcome(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild: discord.Guild):
-        channel = discord.utils.find(
-            lambda c: c.permissions_for(guild.me).send_messages,
-            guild.text_channels
+        if guild.me is None:
+            return
+
+        preferred_channels = []
+        if guild.system_channel is not None:
+            preferred_channels.append(guild.system_channel)
+
+        preferred_channels.extend(guild.text_channels)
+        channel = next(
+            (c for c in preferred_channels if _can_post_in_channel(guild.me, c)),
+            None,
         )
         if channel:
             await self.send_tutorial(guild, channel)
@@ -72,6 +85,11 @@ class AegisMenuSelect(discord.ui.Select):
             )
             help_cog = self.bot.get_cog("customHelp")
             categories = getattr(help_cog, "GLOBAL_CATEGORIES", {}) if help_cog else {}
+            if not categories:
+                embed.description = (
+                    "Aucune catégorie détectée pour l’instant. "
+                    "Vérifiez que le cog `customHelp` est chargé."
+                )
             for key, cat in categories.items():
                 cogs_list = cat.cogs
                 if not cogs_list:
